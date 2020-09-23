@@ -303,7 +303,7 @@ gometh <- function(sig.cpg, all.cpg=NULL, collection=c("GO","KEGG"),
   prior.prob
 }
 
-.getFlatAnnotation <- function(array.type=c("450K","EPIC"),anno=NULL)
+.getFlatAnnotation <- function(array.type=c("450K","EPIC"),anno=NULL, keep_groups=FALSE)
   # flatten 450k or EPIC array annotation
   # Jovana Maksimovic
   # 18 September 2018
@@ -352,8 +352,14 @@ gometh <- function(sig.cpg, all.cpg=NULL, collection=c("GO","KEGG"),
   flat$entrezid <- eg$gene_id[m]
   flat <- flat[!is.na(flat$entrezid),]
   
-  # keep unique cpg by gene name annotation
-  id<-paste(flat$cpg,flat$entrezid,sep=".")
+  if (keep_groups) {
+    # keep unique cpg by gene group (region) annotation
+    id <- paste(flat$cpg, flat$entrezid, flat$group, sep = ".")
+  } else {
+    # keep unique cpg by gene name annotation
+    id <- paste(flat$cpg, flat$entrezid, sep=".")
+  }
+  
   d <- duplicated(id)
   flat.u <- flat[!d,]
   flat.u
