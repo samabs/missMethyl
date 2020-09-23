@@ -219,28 +219,28 @@ gometh <- function(sig.cpg, all.cpg=NULL, collection=c("GO","KEGG"),
    
   if(collection == "GO"){
     go <- .getGO()
-    result <- gsameth(sig.cpg=sig.cpg, all.cpg=all.cpg, collection=go$idList, 
-                      array.type=array.type, plot.bias=plot.bias, 
-                      prior.prob=prior.prob, anno=anno, equiv.cpg=equiv.cpg,
-                      fract.counts=fract.counts, 
-                      genomic.features = genomic.features,
-                      sig.genes = sig.genes)
-    result <- merge(go$idTable,result,by.x="GOID",by.y="row.names")
-    rownames(result) <- result$GOID
+    result_list <- gsameth(sig.cpg=sig.cpg, all.cpg=all.cpg, collection=go$idList, 
+                           array.type=array.type, plot.bias=plot.bias, 
+                           prior.prob=prior.prob, anno=anno, equiv.cpg=equiv.cpg,
+                           fract.counts=fract.counts, 
+                           genomic.features = genomic.features,
+                           sig.genes = sig.genes)
+    result_list$result <- merge(go$idTable, result_list$result, by.x="GOID", by.y="row.names")
+    rownames(result_list$result) <- result_list$result$GOID
 
   } else if(collection == "KEGG"){
     kegg <- .getKEGG()
-    result <- gsameth(sig.cpg=sig.cpg, all.cpg=all.cpg, collection=kegg$idList, 
-                      array.type=array.type, plot.bias=plot.bias, 
-                      prior.prob=prior.prob, anno=anno, equiv.cpg=equiv.cpg,
-                      fract.counts=fract.counts, 
-                      genomic.features = genomic.features,
-                      sig.genes = sig.genes)
-    result <- merge(kegg$idTable,result,by.x="PathwayID",by.y="row.names")
-    rownames(result) <- result$PathwayID
+    result_list <- gsameth(sig.cpg=sig.cpg, all.cpg=all.cpg, collection=kegg$idList, 
+                           array.type=array.type, plot.bias=plot.bias, 
+                           prior.prob=prior.prob, anno=anno, equiv.cpg=equiv.cpg,
+                           fract.counts=fract.counts, 
+                           genomic.features = genomic.features,
+                           sig.genes = sig.genes)
+    result_list$result <- merge(kegg$idTable, result_list$result, by.x="PathwayID", by.y="row.names")
+    rownames(result_list$result) <- result_list$result$PathwayID
   }
   
-  result[,-1]
+  list(result=result_list$result[,-1], output=result_list$output)
 }  
 
 .getGO <- function(){
