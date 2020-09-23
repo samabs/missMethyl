@@ -180,6 +180,7 @@ getMappedEntrezIDs <- function(sig.cpg, all.cpg=NULL,
     
     out <- list(sig.eg = sorted.eg.sig, universe = eg.universe, 
                 freq = freq_genes, equiv =  equivN, de = test.de, 
-                fract.counts = data.frame(sigid=sorted.eg.sig,frac=fract.counts))
+                fract.counts = data.frame(sigid=sorted.eg.sig,frac=fract.counts),
+                flat.u=flat.u, sig.flat=sig.flat)
     out
 }

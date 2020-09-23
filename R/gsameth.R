@@ -304,8 +304,8 @@ gsameth <- function(sig.cpg, all.cpg=NULL, collection,
   }
   results[,"FDR"] <- stats::p.adjust(results[,"P.DE"],method="BH")
   results[,"DE"] <- floor(results[,"DE"])
-  if(sig.genes) data.frame(results, SigGenesInSet)
-  else data.frame(results)
+  if(sig.genes) list(result=data.frame(results, SigGenesInSet), output=out)
+  else list(result=data.frame(results), output=out)
 }
 
 
